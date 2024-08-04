@@ -48,7 +48,6 @@ func main() {
 	err = migration.Up()
 
 	if err != nil && err != migrate.ErrNoChange {
-		migration.Down()
 		panic(err)
 	}
 
