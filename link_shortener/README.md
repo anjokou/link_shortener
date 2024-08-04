@@ -8,6 +8,8 @@ The run command is to be run from the "src" directory
 go run .
 ```
 
+Currently, failure to connect to the analytics service is treated as a fatal error, so the analytics server should be run first.
+
 # Environment Variables
 
 The runtime can be customized with environment variables. If they are not present, the default setting will be used
