@@ -1,0 +1,25 @@
+FROM golang:alpine
+
+#Install tools needed to build the app
+RUN apk update && apk add build-base
+
+#Runtime options
+ENV MIGRATIONS_DIR="./migrations"
+EXPOSE 8000
+
+# Copy sources
+RUN mkdir -p /app/src
+WORKDIR /app
+COPY migrations ./migrations
+COPY src ./src
+
+# Build app
+ENV CGO_ENABLED=1
+WORKDIR /app/src
+RUN go build -o ../link_shortener
+
+# Cleanup
+WORKDIR /app
+RUN rm -r src
+
+CMD ["./link_shortener"]

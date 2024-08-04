@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  link-shortener:
+    build:
+      context: ./link_shortener
+      dockerfile: dockerfile
+    environment:
+      ANALYTICS_HOST: analytics
+      ANALYTICS_PORT: 8002
+      CLEAR_DB_ON_STARTUP: 1
+    ports:
+      - "8000:8000"
+    networks:
+      - link-shortener-network
+    depends_on:
+      analytics:
+        condition: service_started
+
+  analytics:
+    build:
+      context: ./analytics
+      dockerfile: dockerfile
+    ports:
+      - "8001:8001"
+      - "8002:8002"
+    networks:
+      - link-shortener-network
+
+networks:
+  link-shortener-network:

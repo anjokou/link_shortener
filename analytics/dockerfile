@@ -1,0 +1,23 @@
+FROM golang:alpine
+
+#Install tools needed to build the app
+RUN apk update && apk add build-base
+
+#Runtime options
+EXPOSE 8001
+EXPOSE 8002
+
+# Copy sources
+RUN mkdir -p /app/src
+WORKDIR /app
+COPY src ./src
+
+# Build app
+WORKDIR /app/src
+RUN go build -o ../analytics
+
+# Cleanup
+WORKDIR /app
+RUN rm -r src
+
+CMD ["./analytics"]
